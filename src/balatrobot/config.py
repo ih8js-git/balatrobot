@@ -105,6 +105,19 @@ class Config:
 
         return cls(**kwargs)
 
+    @classmethod
+    def from_kwargs(cls, **kw: Any) -> Self:
+        """Create Config from keyword arguments with env var fallback."""
+        kwargs: dict[str, Any] = {}
+
+        for field, env_var in ENV_MAP.items():
+            if kw.get(field) is not None:
+                kwargs[field] = kw[field]
+            elif (env_val := os.environ.get(env_var)) is not None:
+                kwargs[field] = _parse_env_value(field, env_val)
+
+        return cls(**kwargs)
+
     def to_env(self) -> dict[str, str]:
         """Convert config to environment variables dict."""
         env: dict[str, str] = {}
