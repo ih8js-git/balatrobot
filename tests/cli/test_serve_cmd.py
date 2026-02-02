@@ -80,9 +80,9 @@ class TestMainApp:
         assert "api" in result.output
 
     def test_no_args_shows_help(self):
-        """Running without args shows help (exit code 0 per Typer no_args_is_help)."""
+        """Running without args shows help (exit code 2 for multi-command apps)."""
         result = runner.invoke(app, [])
-        # Typer no_args_is_help shows help and exits with code 0
-        assert result.exit_code == 0 or result.exit_code == 2
+        # Typer no_args_is_help exits with code 2 for multi-command apps
+        assert result.exit_code == 2
         assert "serve" in result.output
         assert "api" in result.output
