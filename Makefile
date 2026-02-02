@@ -75,7 +75,7 @@ fixtures: ## Generate fixtures
 
 test: ## Run all tests
 	@$(PRINT) "$(YELLOW)Running tests/cli with $(XDIST_WORKERS) workers...$(RESET)"
-	pytest -n $(XDIST_WORKERS) tests/cli
+	pytest -n 2 tests/cli
 	@$(PRINT) "$(YELLOW)Running tests/lua with $(XDIST_WORKERS) workers...$(RESET)"
 	pytest -n $(XDIST_WORKERS) tests/lua
 
