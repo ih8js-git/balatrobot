@@ -97,7 +97,7 @@ def serve(
     try:
         asyncio.run(_serve(config))
     except KeyboardInterrupt:
-        pass
+        typer.echo("\nShutting down server...")
 
 
 async def _serve(config: Config) -> None:
