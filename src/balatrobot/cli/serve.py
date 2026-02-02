@@ -103,6 +103,6 @@ def serve(
 async def _serve(config: Config) -> None:
     """Async serve implementation."""
     async with BalatroInstance(config) as instance:
-        print(f"Balatro running on port {instance.port}. Press Ctrl+C to stop.")
+        typer.echo(f"Balatro running on port {instance.port}. Press Ctrl+C to stop.")
         while True:
             await asyncio.sleep(5)
