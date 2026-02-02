@@ -32,16 +32,6 @@ INTEGRATION_FILES = {
 # ============================================================================
 
 
-def _check_health(host: str, port: int, timeout: float = 2.0) -> bool:
-    """Sync health check."""
-    try:
-        client = BalatroClient(host=host, port=port, timeout=timeout)
-        client.call("health")
-        return True
-    except Exception:
-        return False
-
-
 def pytest_configure(config):
     """Start Balatro instances for integration tests (master only)."""
     # Skip if xdist worker (master handles startup)
