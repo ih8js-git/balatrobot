@@ -4,6 +4,7 @@ import json
 from enum import StrEnum
 from typing import Annotated
 
+import httpx
 import typer
 
 from balatrobot.cli.client import APIError, BalatroClient
@@ -57,6 +58,6 @@ def api(
     except APIError as e:
         typer.echo(f"Error: {e.name} - {e.message}", err=True)
         raise typer.Exit(code=1)
-    except Exception as e:
+    except (httpx.ConnectError, httpx.TimeoutException, httpx.HTTPStatusError) as e:
         typer.echo(f"Error: Connection failed - {e}", err=True)
         raise typer.Exit(code=1)
