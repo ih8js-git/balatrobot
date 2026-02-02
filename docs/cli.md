@@ -1,16 +1,31 @@
 # CLI Reference
 
-Command-line interface for launching Balatro with the BalatroBot mod.
+Command-line interface for the BalatroBot framework.
 
 ## Usage
 
 ```bash
-uvx balatrobot [OPTIONS]
+# Start Balatro server
+uvx balatrobot serve [OPTIONS]
+
+# Call API on running server
+uvx balatrobot api METHOD [PARAMS] [OPTIONS]
 ```
+
+BalatroBot provides two commands:
+
+- **serve** - Start Balatro with the BalatroBot mod loaded
+- **api** - Call API endpoints on a running server
+
+## serve Command
 
 Start Balatro with the BalatroBot mod loaded and API server running.
 
-## Options
+```bash
+uvx balatrobot serve [OPTIONS]
+```
+
+### Options
 
 All options can be set via CLI flags or environment variables. CLI flags override environment variables.
 
@@ -38,32 +53,84 @@ All options can be set via CLI flags or environment variables. CLI flags overrid
 
 **Note:** Boolean flags (`--fast`, `--headless`, etc.) use `1` for enabled and `0` for disabled when set via environment variables.
 
+## api Command
+
+Call an API endpoint on a running BalatroBot server. Returns JSON response to stdout.
+
+```bash
+uvx balatrobot api METHOD [PARAMS] [OPTIONS]
+```
+
+### Arguments
+
+| Argument | Required | Description                                        |
+| -------- | -------- | -------------------------------------------------- |
+| `METHOD` | Yes      | API method to call (see available methods below)   |
+| `PARAMS` | No       | JSON object with method parameters (default: `{}`) |
+
+### Options
+
+| CLI Flag      | Default     | Description     |
+| ------------- | ----------- | --------------- |
+| `--host HOST` | `127.0.0.1` | Server hostname |
+| `--port PORT` | `12346`     | Server port     |
+
+### Available Methods
+
+`add`, `buy`, `cash_out`, `discard`, `gamestate`, `health`, `load`, `menu`, `next_round`, `pack`, `play`, `rearrange`, `reroll`, `save`, `screenshot`, `select`, `sell`, `set`, `skip`, `start`, `use`
+
+For detailed method documentation including parameters and schemas, see the [OpenRPC specification](../src/lua/utils/openrpc.json).
+
+### api Examples
+
+```bash
+# Health check
+uvx balatrobot api health
+
+# Get current game state
+uvx balatrobot api gamestate
+
+# Start a new game with Red Deck
+uvx balatrobot api start '{"deck": "RED", "stake": "WHITE"}'
+
+# Play cards at indices 0 and 2
+uvx balatrobot api play '{"cards": [0, 2]}'
+
+# Connect to server on different port
+uvx balatrobot api health --port 8080
+```
+
+### Error Handling
+
+On success, prints JSON result to stdout (exit code 0).
+On error, prints `Error: NAME - message` to stderr (exit code 1).
+
 ## Examples
 
 ### Basic Usage
 
 ```bash
 # Start with default settings
-uvx balatrobot
+uvx balatrobot serve
 
 # Start with fast mode for development
-uvx balatrobot --fast
+uvx balatrobot serve --fast
 
 # Start with debug mode (requires DebugPlus mod)
-uvx balatrobot --fast --debug
+uvx balatrobot serve --fast --debug
 
 # Start headless for automated testing
-uvx balatrobot --headless --fast
+uvx balatrobot serve --headless --fast
 ```
 
 ### Custom Configuration
 
 ```bash
 # Use a different port
-uvx balatrobot --port 8080
+uvx balatrobot serve --port 8080
 
 # Custom Balatro installation
-uvx balatrobot --balatro-path /path/to/Balatro.exe
+uvx balatrobot serve --balatro-path /path/to/Balatro.exe
 ```
 
 ## Examples with Environment Variables
@@ -76,10 +143,10 @@ export BALATROBOT_PORT=8080
 export BALATROBOT_FAST=1
 
 # Launch with defaults from env vars
-uvx balatrobot
+uvx balatrobot serve
 
 # CLI flags override env vars
-uvx balatrobot --port 9000  # Uses port 9000, not 8080
+uvx balatrobot serve --port 9000  # Uses port 9000, not 8080
 ```
 
 **Windows PowerShell:**
@@ -87,7 +154,7 @@ uvx balatrobot --port 9000  # Uses port 9000, not 8080
 ```powershell
 $env:BALATROBOT_PORT = "8080"
 $env:BALATROBOT_FAST = "1"
-uvx balatrobot
+uvx balatrobot serve
 ```
 
 ## Process Management
@@ -119,10 +186,10 @@ The `windows` platform launches Balatro via Steam on Windows. The CLI auto-detec
 
 ```powershell
 # Auto-detects paths
-uvx balatrobot --fast
+uvx balatrobot serve --fast
 
 # Or specify custom paths
-uvx balatrobot --love-path "C:\Custom\Path\Balatro.exe" --lovely-path "C:\Custom\Path\version.dll"
+uvx balatrobot serve --love-path "C:\Custom\Path\Balatro.exe" --lovely-path "C:\Custom\Path\version.dll"
 ```
 
 ### macOS Platform
@@ -146,10 +213,10 @@ The `darwin` platform launches Balatro via Steam on macOS. The CLI auto-detects 
 
 ```bash
 # Auto-detects paths
-uvx balatrobot --fast
+uvx balatrobot serve --fast
 
 # Or specify custom paths
-uvx balatrobot --love-path "/path/to/love" --lovely-path "/path/to/liblovely.dylib"
+uvx balatrobot serve --love-path "/path/to/love" --lovely-path "/path/to/liblovely.dylib"
 ```
 
 ### Native Platform (Linux Only)
@@ -172,7 +239,7 @@ mkdir -p ~/.local/share/love/balatro
 cp -r /path/to/balatro/settings/* ~/.local/share/love/balatro/
 
 # Launch with native platform
-uvx balatrobot --platform native --balatro-path /path/to/balatro/source
+uvx balatrobot serve --platform native --balatro-path /path/to/balatro/source
 ```
 
 ??? tip "Hyprland Configuration"
