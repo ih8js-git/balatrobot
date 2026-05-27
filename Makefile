@@ -68,8 +68,9 @@ quality: lint typecheck format ## Run all code quality checks
 	@$(PRINT) "$(GREEN)✓ All checks completed$(RESET)"
 
 fixtures: ## Generate fixtures
-	@$(PRINT) "$(YELLOW)Starting Balatro...$(RESET)"
-	balatrobot --fast --debug
+	@$(PRINT) "$(YELLOW)Checking Balatro is running...$(RESET)"
+	@balatrobot api health || (echo ''; echo '  Start Balatro in another terminal:'; echo '    balatrobot serve --fast --debug'; echo ''; exit 1)
+	@$(PRINT) "$(GREEN)  Connected!$(RESET)"
 	@$(PRINT) "$(YELLOW)Generating all fixtures...$(RESET)"
 	python tests/fixtures/generate.py
 
