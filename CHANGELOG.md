@@ -1,5 +1,26 @@
 # Changelog
 
+## [1.5.0](https://github.com/coder/balatrobot/compare/v1.4.1...v1.5.0) (2026-05-27)
+
+
+### Features
+
+* **platform:** add linux support through proton ([5c06e3f](https://github.com/coder/balatrobot/commit/5c06e3f274ffa25df34d38dfffa5fd3390dfa3b0)), closes [#128](https://github.com/coder/balatrobot/issues/128) [#162](https://github.com/coder/balatrobot/issues/162) [#184](https://github.com/coder/balatrobot/issues/184)
+
+
+### Bug Fixes
+
+* **lua.endpoints:** remove getInfo check in load endpoint ([e446b27](https://github.com/coder/balatrobot/commit/e446b275ba4ae5c909557829861105377c4b83fa))
+* **makefile:** update fixtures target to use updated CLI ([c160f04](https://github.com/coder/balatrobot/commit/c160f0458533cab9c3bc34290e2d514813606839))
+* **metadata:** change the Steamodded dependency to include betas. ([c37a6b4](https://github.com/coder/balatrobot/commit/c37a6b458b91babfdc00e173d861b8947c1b7485))
+
+
+### Documentation
+
+* **index:** fix link to BalatroBot in index.md ([09eee0e](https://github.com/coder/balatrobot/commit/09eee0eeb21dddf90cc3df97525040e0e255ddad))
+* **installation:** fixing releases link ([fa5abf1](https://github.com/coder/balatrobot/commit/fa5abf1619dec6c909abdfaeec567340377082cf))
+* update documentation for Linux (Proton) support ([5a345ec](https://github.com/coder/balatrobot/commit/5a345ec33de249c26f3ccc29414a261086248d67))
+
 ## [1.4.1](https://github.com/coder/balatrobot/compare/v1.4.0...v1.4.1) (2026-02-06)
 
 
