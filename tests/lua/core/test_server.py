@@ -15,7 +15,7 @@ import socket
 import httpx
 import pytest
 
-from balatrobot.pool import InstanceInfo
+from balatrobot.instance import InstanceInfo
 
 
 class TestHTTPServerInit:
