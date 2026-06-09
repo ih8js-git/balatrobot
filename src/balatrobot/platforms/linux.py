@@ -104,10 +104,12 @@ class LinuxLauncher(BaseLauncher):
         env = os.environ.copy()
         env["WINEDLLOVERRIDES"] = "version=n,b"
 
+        # Don't override user-set env vars (e.g. custom Wine prefix, Proton version)
         steam_root = _detect_steam_root()
-        if steam_root:
+        if steam_root and "STEAM_COMPAT_CLIENT_INSTALL_PATH" not in env:
             env["STEAM_COMPAT_CLIENT_INSTALL_PATH"] = str(steam_root)
-            compat_data = _detect_compat_data_path(steam_root)
+        if "STEAM_COMPAT_DATA_PATH" not in env:
+            compat_data = _detect_compat_data_path(steam_root) if steam_root else None
             if compat_data:
                 env["STEAM_COMPAT_DATA_PATH"] = str(compat_data)
 
